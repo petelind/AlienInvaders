@@ -44,7 +44,7 @@ def check_keyup_events(event, ai_settings, screen, ship, bullets):
         ship.moving_left = False
 
 
-def update_screen(ai_settings, screen, ship, bullets):
+def update_screen(ai_settings, screen, ship, alien, bullets):
     """
     :Purpose updates objects on the screen
     :param ai_settings: game settings of Settings
@@ -56,6 +56,7 @@ def update_screen(ai_settings, screen, ship, bullets):
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()
+    alien.blitme()
     pygame.display.flip()
 
 
