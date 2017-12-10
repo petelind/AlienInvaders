@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from bullet import Bullet
+from Alien import Alien
 
 
 def check_events(ai_settings, screen, ship, bullets):
@@ -12,7 +13,7 @@ def check_events(ai_settings, screen, ship, bullets):
     """
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-                sys.exit()
+            sys.exit()
 
         # check if key was pressed
         elif event.type == pygame.KEYDOWN:
@@ -44,7 +45,7 @@ def check_keyup_events(event, ai_settings, screen, ship, bullets):
         ship.moving_left = False
 
 
-def update_screen(ai_settings, screen, ship, alien, bullets):
+def update_screen(ai_settings, screen, ship, aliens, bullets):
     """
     :Purpose updates objects on the screen
     :param ai_settings: game settings of Settings
@@ -56,7 +57,7 @@ def update_screen(ai_settings, screen, ship, alien, bullets):
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()
-    alien.blitme()
+    aliens.draw(screen)
     pygame.display.flip()
 
 
@@ -65,3 +66,16 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     bullets.update()
+
+
+def create_fleet(ai_settings, screen, aliens):
+    alien = Alien(ai_settings, screen)
+    alien_width = alien.rect.width
+    available_space_x = ai_settings.screen_width - 2 * alien_width
+    number_aliens_x = int(available_space_x / (2 * alien_width))
+
+    for alien_number in range(number_aliens_x):
+        alien = Alien(ai_settings, screen)
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        aliens.add(alien)
